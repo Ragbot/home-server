@@ -30,7 +30,11 @@ func main() {
 		Description: "File Dropper",
 	})
 
-	if err := http.ListenAndServe(":7878", nil); err != nil {
+	http.HandleFunc("/exit", func(w http.ResponseWriter, r *http.Request) {
+		defer os.Exit(0)
+	})
+
+	if err := http.ListenAndServe(":8000", nil); err != nil {
 		log.Fatal(err)
 	}
 }
