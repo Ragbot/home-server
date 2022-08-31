@@ -1,0 +1,13 @@
+Drop:
+    /drop   -> Drops to server
+    /box    -> Get Lists of dropped files and download 
+
+MangaDex:
+    /manga                      -> Get / Search Manga
+        limit => limits the number of search result
+
+
+    /manga/random               -> Get Random manga
+
+    /manga/{id}/feed            -> Get Chapters of a manga
+    /at-home/server/{chapterId} -> Get Chapter Pages
