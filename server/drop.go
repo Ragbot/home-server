@@ -10,46 +10,74 @@ type drop struct {
 
 func (d *drop) Render() app.UI {
 	return app.Div().Body(
-		// app.Span().Text("Drop File Here Click to upload").Class("drop-zone__prompt"),
-		app.Div().Class("drop-zone__thumb").
-			ID("drop-zone__thumb").
-			OnClick(d.OnCLick).
-			OnDrop(d.OnDrop).
-			Style("width", "100%").
-			Style("height", "100%").
-			Style("border-radius", "10px").
-			Style("overflow", "hidden").
-			Style("background-color", "#cccccc").
-			Style("background-size", "cover").
-			Style("position", "relative"),
-		app.Input().Type("file").Name("myFile").Class("drop-zone__input").ID("drop_input").
-			Style("display", "none"),
-	).Class("drop-zone").
-		Style("max-width", "200px").
-		Style("height", "200px").
-		Style("padding", "25px").
-		Style("display", "flex").
-		Style("align-items", "center").
-		Style("justify-content", "center").
-		Style("text-align", "center").
-		Style("border", "4px dashed #009578").
-		Style("border-radius", "10px").
-		Style("font-family", "\"Quicksand\", sans-serif").
-		Style("font-weight", "500").
-		Style("font-size", "20px").
-		Style("color", "#cccccc")
+		NavBar(),
+		TopBar(),
+		FileList(),
+	)
 }
 
-func (d *drop) OnCLick(ctx app.Context, e app.Event) {
-	e.PreventDefault()
-
-	drop_button := app.Window().GetElementByID("drop_input")
-	drop_button.Call("click")
+func NavBar() app.HTMLDiv {
+	// Nav-Side Bar
+	return app.Div().ID("nav-bar").Body(
+		// Button List
+		app.Ul().Body(
+			app.P().Text("Close").
+				OnClick(func(ctx app.Context, e app.Event) {
+					nav_bar := app.Window().GetElementByID("nav-bar")
+					nav_bar.Get("style").Set("display", "none")
+				}).
+				Style("font-weight", "bold").
+				Style("user-select", "none"),
+			app.P().Text("Home").OnClick(func(ctx app.Context, e app.Event) {
+				app.Window().Get("location").Call("assign", "/")
+			}), // Home Page Button
+			app.P().Text("Drop"), // Drop Page Button
+		).
+			// Button List Styles
+			Styles(map[string]string{
+				"list-style-type": "none",
+				"margin":          "0",
+				"padding":         "0",
+				"z-index":         "1",
+				"font-family":     "Consolas",
+				"user-select":     "none",
+				"weight":          "500",
+			}),
+	).
+		// Nav Bar Styles
+		Styles(map[string]string{
+			"height":     "100%",
+			"width":      "200px",
+			"position":   "fixed",
+			"z-index":    "1",
+			"overflow":   "auto",
+			"background": "white",
+		})
 }
 
-func (d *drop) OnDrop(ctx app.Context, e app.Event) {
-	e.PreventDefault()
+func TopBar() app.HTMLDiv {
+	return app.Div().Class("tob-bar").Body(
+		app.Img().Src("web/neon.png").
+			Styles(map[string]string{
+				"height": "20%",
+				"width":  "20%",
+			}),
+	). // Top Bar Styles
+		Styles(map[string]string{
+			"float":  "right",
+			"height": "25%",
+		}).
+		OnClick(func(ctx app.Context, e app.Event) {
+			nav_bar := app.Window().GetElementByID("nav-bar")
+			nav_bar.Get("style").Set("display", "flex")
+		})
+}
 
-	drop_button := app.Window().GetElementByID("drop_input")
-
+func FileList() app.HTMLDiv {
+	return app.Div().Class("file-list").Body(
+		app.P().Text("FILE"),
+	).Styles(map[string]string{
+		"font-weight": "bold",
+		"font-family": "consolas",
+	})
 }

@@ -14,7 +14,9 @@ type hello struct {
 
 func (h *hello) Render() app.UI {
 	return app.Div().Body(
-		app.Img().Src("/web/neon.png").Style("width", "100%"),
+		app.Img().Src("/web/neon.png").Style("width", "100%").OnClick(func(ctx app.Context, e app.Event) {
+			app.Window().Get("location").Call("assign", "/drop")
+		}),
 		app.H1().Body(
 			app.If(h.text != "",
 				app.Text(h.text),
